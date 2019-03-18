@@ -1,11 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <sstream>
-
 #include "Renderer.h"
 
 #include "VertexBuffer.h"
@@ -13,6 +8,9 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "VertexBufferLayout.h"
+
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 int main(void)
 {
@@ -59,9 +57,12 @@ int main(void)
 
 		IndexBuffer ib(indices, 6);
 
+		glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, - 1.0f, 1.0f);
+
 		Shader shader("res/shaders/Basic.shader");
 		shader.bind();
 		shader.setUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
+		shader.setUniformMat4f("u_MVP", proj);
 
 		va.unbind();
 		vb.unbind();
